@@ -33,38 +33,32 @@ bot.on('message',msg =>{
 	const { id } = msg.chat 
 	const name = msg.chat.first_name
 	
-	pexelsClient.getPhoto(random(1111111,2222222))
+	pexelsClient.getPhoto(random(1111111,3333333))
     .then(function(result){
-		//console.log(result);
+		console.log(result);
 
-		bot.sendPhoto(id, result.src.medium,{
-			caption:`Фотграф ${result.photographer} `
-		})
+		if (result.status == '404'  ) {
+		
+			bot.sendMessage(id,'Помилка ' + result.error )
 
-		bot.sendMessage(id,'фото на сайті ' + result.url )
+		}else{
+			bot.sendPhoto(id, result.src.medium,{
+				caption:`Фотграф ${result.photographer} `
+			})
+	
+			bot.sendMessage(id,'фото на сайті ' + result.url )
+
+			
+		}
+
+		
     }).
     catch(function(e){
-        console.log(e);
+		bot.sendMessage(id,'Помилка ' + e); 
+
+        console.log('помилка ' + e);
 	});
 	
-	// pexelsClient.getCuratedPhotos(10, 1)
-    // .then(function(result){
-    //     console.log(result);
-    // }).
-    // catch(function(e){
-    //     console.err(e);
-    // });
-
-	// pexelsClient.getPopularPhotos(1, 1)
-    // .then(function(result){
-    //     console.log(result.photos);
-    // }).
-    // catch(function(e){
-    //     console.err(e);
-	// });
 	
-
-
-
 
 })
