@@ -33,16 +33,16 @@ bot.on('message',msg =>{
 	const { id } = msg.chat 
 	const name = msg.chat.first_name
 	
-	pexelsClient.getPhoto(random(1111111,3333333))
+	pexelsClient.getPhoto(random(1111111,1112222))
     .then(function(result){
-		console.log(result);
+		//console.log(result);
 
 		if (result.status == '404'  ) {
 		
 			bot.sendMessage(id,'Помилка ' + result.error )
 
 		}else{
-			bot.sendPhoto(id, result.src.medium,{
+			bot.sendPhoto(id, result.src.large2x,{
 				caption:`Фотграф ${result.photographer} `
 			})
 	
