@@ -9,6 +9,7 @@ var pexelsClient = new PexelsAPI(confData.Pexels_tok);
 
 
 console.log('main started...')
+let counter = 0
 
 const bot = new TelegramBot(confData.telegam_tok, {
 	polling: {
@@ -79,17 +80,18 @@ bot.on('callback_query', query => {
 
 		pexelsClient.getPopularPhotos(7, 1)
 			.then(function (result) {
-				console.log(result);
+				//console.log(result);
 				var urls = []
 				for (let index = 0; index < result.photos.length; index++) {
 					const element = result.photos[index];
 
 					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
 						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-							[Оригінальне зоображення](${element.url}).`,
+						[Оригінальне зоображення](${element.url}).`,
 						parse_mode: 'Markdown'
 					});
 				};
+
 				bot.answerCallbackQuery(query.id, `Готово`);
 
 			}).catch(function (e) {
@@ -100,14 +102,14 @@ bot.on('callback_query', query => {
 
 		pexelsClient.search("cars", 7, 1)
 			.then(function (result) {
-				console.log(result);
+			//	console.log(result);
 
 				for (let index = 0; index < result.photos.length; index++) {
 					const element = result.photos[index];
 
 					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
 						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-									[Оригінальне зоображення](${element.url}).`,
+						[Оригінальне зоображення](${element.url}).`,
 						parse_mode: 'Markdown'
 					});
 
@@ -127,7 +129,7 @@ bot.on('callback_query', query => {
 
 		pexelsClient.search("nature", 7, 1)
 			.then(function (result) {
-				console.log(result);
+				//console.log(result);
 
 				for (let index = 0; index < result.photos.length; index++) {
 					const element = result.photos[index];
@@ -136,7 +138,7 @@ bot.on('callback_query', query => {
 
 					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
 						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-									[Оригінальне зоображення](${element.url}).`,
+						[Оригінальне зоображення](${element.url}).`,
 						parse_mode: 'Markdown'
 					});
 
@@ -151,14 +153,14 @@ bot.on('callback_query', query => {
 	} else {
 		pexelsClient.search("wedding", 7, 1)
 			.then(function (result) {
-				console.log(result);
+				//console.log(result);
 
 				for (let index = 0; index < result.photos.length; index++) {
 					const element = result.photos[index];
 					
 					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
 						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-									[Оригінальне зоображення](${element.url}).`,
+						[Оригінальне зоображення](${element.url}).`,
 						parse_mode: 'Markdown'
 					});
 				};
@@ -171,6 +173,6 @@ bot.on('callback_query', query => {
 
 	};
 
-	//bot.answerCallbackQuery(query.id,`${query.data}`)
+	bot.answerCallbackQuery(query.id,`${query.data}`)
 
 })
