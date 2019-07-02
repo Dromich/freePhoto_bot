@@ -32,10 +32,12 @@ function random(min, max) {
 
 bot.on('message', msg => {
 
-	//counter[query.message.chat.id] = 1
+	
 
 	const { id } = msg.chat
 	const name = msg.chat.first_name
+
+	counter[id] = 1
 
 	bot.sendMessage(id, name + ', Які саме картинки вам потрібно:', {
 		reply_markup: {
@@ -253,6 +255,6 @@ if ( queryCall[0]=== 'popular') {
 
 	};
 
-	bot.answerCallbackQuery(query.id,`${query.data}`)
+	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
 })
