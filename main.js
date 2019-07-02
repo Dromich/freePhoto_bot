@@ -36,54 +36,45 @@ const name = msg.chat.first_name
 
 
 	
-	// pexelsClient.getPhoto(random(1111111,1112222))
-    // .then(function(result){
-	// 	//console.log(result);
 
-	// 	if (result.status == '404'  ) {
-		
-	// 		bot.sendMessage(id,'Помилка ' + result.error )
-
-	// 	}else{
-	// 		bot.sendPhoto(id, result.src.large2x,{
-	// 			caption:`Фотграф ${result.photographer} `
-	// 		})
-	
-	// 		bot.sendMessage(id,'фото на сайті ' + result.url )
-
-			
-	// 	}
-
-		
-    // }).
-    // catch(function(e){
-	// 	bot.sendMessage(id,'Помилка ' + e); 
-
-    //     console.log('помилка ' + e);
-	// });
 	
 
 
-	pexelsClient.search("cars", 10, 1)
+	pexelsClient.getPopularPhotos(2, 1)
     .then(function(result){
 		console.log(result);
-		
+		var urls = []
 		for (let index = 0; index < result.photos.length; index++) {
 			const element = result.photos[index];
 
-			bot.sendPhoto(id, element.src.large,{
-							caption:`Фотограф  [${element.photographer}](${element.photographer_url}).  `,
-							parse_mode:'Markdown'
-						})
-				
-						//bot.sendMessage(id,'фото на сайті ' + element.url )
 			
-		}
 
+			// bot.sendPhoto(id, element.src.large2x,{
+			// 				caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+			// 				[Оригінальне зоображення](${element.url}).`,
+			// 				parse_mode:'Markdown'
+			// 			})
+
+			var item = {
+				type:'photo',
+				media:element.src.large2x,
+				caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)	[Оригінальне зоображення](${element.url}).`,
+				parse_mode:'Markdown'
+			}
+				
+						
+			urls.push(item)
+		}
+let sendMasag = JSON.stringify(urls,null, 2)
+console.log(sendMasag)
+
+		//bot.sendMessage(id,`картинки ${sendMasag}`)
+
+		bot.sendMediaGroup(id,sendMasag)
 
 
     }).catch(function(e){
-        console.err(e);
+        console.log(e);
     });
 	
 
