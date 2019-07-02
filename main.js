@@ -34,13 +34,50 @@ bot.on('message',msg =>{
 const { id } = msg.chat 
 const name = msg.chat.first_name
 
+bot.sendMessage(id, name +', Які саме картинки вам потрібно:',{
+	reply_markup:{
+		inline_keyboard:[
+			[
+				{
+					text:'Популярні картинки за сьогодні',
+					callback_data:'popular'
+			
+				}
+			],
+			[
+				{
+					text:'Машини',
+					callback_data:'cars'
+			
+				},
+				{
+					text:"Природа",
+					callback_data:"nature"
+				},
+				{
+					text:"Весілля",
+					callback_data:"wedd"
+				}
 
+			]
+
+
+		]
+		
+	}
+
+})//bot send mesage and keyboard
 	
 
+})
+
+
+bot.on('callback_query',query =>{
 	
 
-
-	pexelsClient.getPopularPhotos(2, 1)
+	if (query.data === 'popular') {
+		
+		pexelsClient.getPopularPhotos(7, 1)
     .then(function(result){
 		console.log(result);
 		var urls = []
@@ -49,33 +86,115 @@ const name = msg.chat.first_name
 
 			
 
-			// bot.sendPhoto(id, element.src.large2x,{
-			// 				caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-			// 				[Оригінальне зоображення](${element.url}).`,
-			// 				parse_mode:'Markdown'
-			// 			})
+			bot.sendPhoto(query.message.chat.id, element.src.large2x,{
+							caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+							[Оригінальне зоображення](${element.url}).`,
+							parse_mode:'Markdown'
+						})
 
-			var item = {
-				type:'photo',
-				media:element.src.large2x,
-				caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)	[Оригінальне зоображення](${element.url}).`,
-				parse_mode:'Markdown'
-			}
-				
-						
-			urls.push(item)
+		
 		}
-let sendMasag = JSON.stringify(urls,null, 2)
-console.log(sendMasag)
 
-		//bot.sendMessage(id,`картинки ${sendMasag}`)
-
-		bot.sendMediaGroup(id,sendMasag)
 
 
     }).catch(function(e){
         console.log(e);
     });
 	
+
+			bot.answerCallbackQuery(query.id,`Готово`)
+
+	
+			
+		}else if(query.data === 'cars'){	
+			
+			pexelsClient.search("cars", 7, 1)
+			.then(function(result){
+				console.log(result);
+				
+				for (let index = 0; index < result.photos.length; index++) {
+					const element = result.photos[index];
+		
+					
+		
+					bot.sendPhoto(query.message.chat.id, element.src.large2x,{
+									caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+									[Оригінальне зоображення](${element.url}).`,
+									parse_mode:'Markdown'
+								})
+		
+				
+				}
+		
+		
+		
+			}).catch(function(e){
+				console.log(e);
+			});
+
+		bot.answerCallbackQuery(query.id,`Готово`)
+		
+				
+		}else if(query.data === 'nature'){
+	
+			pexelsClient.search("nature", 7, 1)
+			.then(function(result){
+				console.log(result);
+				
+				for (let index = 0; index < result.photos.length; index++) {
+					const element = result.photos[index];
+		
+					
+		
+					bot.sendPhoto(query.message.chat.id, element.src.large2x,{
+									caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+									[Оригінальне зоображення](${element.url}).`,
+									parse_mode:'Markdown'
+								})
+		
+				
+				}
+		
+		
+		
+			}).catch(function(e){
+				console.log(e);
+			});
+
+		bot.answerCallbackQuery(query.id,`Готово`)
+
+
+		}else{
+		
+			
+			pexelsClient.search("wedding", 7, 1)
+			.then(function(result){
+				console.log(result);
+				
+				for (let index = 0; index < result.photos.length; index++) {
+					const element = result.photos[index];
+		
+					
+		
+					bot.sendPhoto(query.message.chat.id, element.src.large2x,{
+									caption:`Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+									[Оригінальне зоображення](${element.url}).`,
+									parse_mode:'Markdown'
+								})
+		
+				
+				}
+		
+		
+		
+			}).catch(function(e){
+				console.log(e);
+			});
+
+		bot.answerCallbackQuery(query.id,`Готово`)
+
+		}
+
+	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
 })
