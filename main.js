@@ -94,7 +94,7 @@ function GetPopular(count, page, chatId, queryId) {
 			for (let index = 0; index < result.photos.length; index++) {
 				const element = result.photos[index];
 				bot.sendPhoto(chatId, element.src.large2x, {
-					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+				caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
 				
 				[Оригінальне зоображення](${element.url}).`,
 					parse_mode: 'Markdown'
@@ -134,7 +134,7 @@ function GetSearch(search, count, page, chatId, queryId) {
 				const element = result.photos[index];
 
 				bot.sendPhoto(chatId, element.src.large2x, {
-					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+				caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
 				
 				[Оригінальне зоображення](${element.url}).`,
 					parse_mode: 'Markdown'
