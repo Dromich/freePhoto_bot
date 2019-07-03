@@ -39,45 +39,45 @@ bot.on('message', msg => {
 		reply_markup: {
 			inline_keyboard: [
 				[{
-					text: 'Популярні картинки',
+					text: 'Популярні картинки 👍',
 					callback_data: 'popular'
 				}],
 				[{
-						text: 'Машини',
+						text: 'Машини 🚗',
 						callback_data: 'cars'
 					},
 					{
-						text: "Природа",
+						text: "Природа 🌳",
 						callback_data: "nature"
 					},
 					{
-						text: "Весілля",
+						text: "Весілля 💍",
 						callback_data: "wedding"
 					}
 				],
 				[{
-						text: 'Тварини',
+						text: 'Тварини 🐶',
 						callback_data: 'animals'
 					},
 					{
-						text: "Подорожі",
+						text: "Подорожі 🛩",
 						callback_data: "travel"
 					},
 					{
-						text: "Міста",
+						text: "Міста 🏙",
 						callback_data: "city"
 					}
 				],
 				[{
-					text: 'Їжа',
+					text: 'Їжа 🥙',
 					callback_data: 'food'
 				},
 				{
-					text: "Спорт",
+					text: "Спорт ⚽",
 					callback_data: "sport"
 				},
 				{
-					text: "Пори року",
+					text: "Пори року 🌈",
 					callback_data: "seasons"
 				}
 			]
@@ -148,7 +148,7 @@ function GetSearch(search, count, page, chatId, queryId) {
 				counter[chatId] = miniCounter
 			}
 			setTimeout(() => {
-				bot.sendMessage(chatId, 'Завантажити ще', {
+				bot.sendMessage(chatId, 'Завантажити ще ?', {
 					reply_markup: {
 						inline_keyboard: [
 							[{
