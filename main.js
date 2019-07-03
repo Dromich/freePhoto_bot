@@ -120,7 +120,7 @@ function GetPopular(count, page, chatId, queryId) {
 						]
 					}
 				}) //bot send mesage and keyboard
-			}, 2500);
+			}, 1800);
 		}).catch(function (e) {
 			console.log(e);
 		});
@@ -159,7 +159,7 @@ function GetSearch(search, count, page, chatId, queryId) {
 						]
 					}
 				}) //bot send mesage and keyboard
-			}, 2500);
+			}, 1800);
 
 
 		}).catch(function (e) {
@@ -172,64 +172,64 @@ bot.on('callback_query', query => {
 	let queryCall = query.data.split(';');
 switch (queryCall[0]) {
 	case 'wedding':
-		GetSearch('wedding', 4, 1, query.message.chat.id, query.id);
+		GetSearch('wedding', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'morewedding':
-		GetSearch('wedding', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('wedding', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'nature':
-		GetSearch('nature', 4, 1, query.message.chat.id, query.id);
+		GetSearch('nature', 3, 1, query.message.chat.id, query.id);
 	case 'morenature':
-		GetSearch('nature', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('nature', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'cars':
-		GetSearch('cars', 4, 1, query.message.chat.id, query.id);
+		GetSearch('cars', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'morecars':
-		GetSearch('cars', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('cars', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'animals':
-		GetSearch('animals', 4, 1, query.message.chat.id, query.id);
+		GetSearch('animals', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'moreanimals':
-		GetSearch('animals', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('animals', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'travel':
-		GetSearch('travel', 4, 1, query.message.chat.id, query.id);
+		GetSearch('travel', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'moretravel':
-		GetSearch('travel', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('travel', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'city':
-		GetSearch('cityl', 4, 1, query.message.chat.id, query.id);
+		GetSearch('city', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'morecity':
-		GetSearch('city', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('city', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'food':
-		GetSearch('food', 4, 1, query.message.chat.id, query.id);
+		GetSearch('food', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'morefood':
-		GetSearch('food', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('food', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'sport':
-		GetSearch('sport', 4, 1, query.message.chat.id, query.id);
+		GetSearch('sport', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'moresport':
-		GetSearch('sport', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('sport', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	case 'seasons':
-		GetSearch('seasons', 4, 1, query.message.chat.id, query.id);
+		GetSearch('seasons', 3, 1, query.message.chat.id, query.id);
 		break;
 	case 'moreseasons':
-		GetSearch('seasons', 4, queryCall[1], query.message.chat.id, query.id);
+		GetSearch('seasons', 3, queryCall[1], query.message.chat.id, query.id);
 		break;
 
 	case 'morepopular':
-		GetPopular(4, queryCall[1], query.message.chat.id, query.id);
+		GetPopular(3, queryCall[1], query.message.chat.id, query.id);
 		break;
 	default:
-		GetPopular(4, 1, query.message.chat.id, query.id);
+		GetPopular(3, 1, query.message.chat.id, query.id);
 		break;
 }
 
