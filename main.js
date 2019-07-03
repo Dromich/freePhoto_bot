@@ -31,26 +31,19 @@ function random(min, max) {
 
 
 bot.on('message', msg => {
-
-	
-
-	const { id } = msg.chat
+	const {	id } = msg.chat
 	const name = msg.chat.first_name
 
-	counter[id] = 1
-
+	counter[id] = 1;
 	bot.sendMessage(id, name + ', Які саме картинки вам потрібно:', {
 		reply_markup: {
 			inline_keyboard: [
-				[
-					{
-						text: 'Популярні картинки за сьогодні',
-						callback_data: 'popular'
+				[{
+					text: 'Популярні картинки',
+					callback_data: 'popular'
 
-					}
-				],
-				[
-					{
+				}],
+				[{
 						text: 'Машини',
 						callback_data: 'cars'
 
@@ -63,197 +56,96 @@ bot.on('message', msg => {
 						text: "Весілля",
 						callback_data: "wedd"
 					}
-
 				]
-
-
 			]
-
 		}
-
-	})//bot send mesage and keyboard
+	}) //bot send mesage and keyboard
 
 
 })
 
-
-bot.on('callback_query', query => {
-
-	let queryCall = query.data.split(';')
-	
-
-if ( queryCall[0]=== 'popular') {
-
-	
-
-		pexelsClient.getPopularPhotos(3, 1)
-			.then(function (result) {
-				//console.log(result);
-				var urls = []
-				for (let index = 0; index < result.photos.length; index++) {
-					const element = result.photos[index];
-
-					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
-						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-						[Оригінальне зоображення](${element.url}).`,
-						parse_mode: 'Markdown'
-					});
-				};
-
-				bot.answerCallbackQuery(query.id, `Готово`);
-
-				if (counter[query.message.chat.id] === undefined) {
-					counter[query.message.chat.id] = 2
-				}else{
-					miniCounter++
-					counter[query.message.chat.id] = miniCounter
-				}
-			
-			setTimeout(() => {
-				bot.sendMessage(query.message.chat.id,'Ще популярних картинок', {
-					reply_markup: {
-						inline_keyboard: [
-							[
-								{
-									text: 'Вперед',
-									callback_data: 'morepopular;' + counter[query.message.chat.id]
-
-			
-								}
-							]
-						]
-			
-					}
-			
-				})//bot send mesage and keyboard
-			}, 1200);
-				
-
-			}).catch(function (e) {
-				console.log(e);
-			});
-
-	} else if (queryCall[0] === 'cars') {
-
-		pexelsClient.search("cars", 3, 1)
-			.then(function (result) {
-			//	console.log(result);
-
-				for (let index = 0; index < result.photos.length; index++) {
-					const element = result.photos[index];
-
-					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
-						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-						[Оригінальне зоображення](${element.url}).`,
-						parse_mode: 'Markdown'
-					});
-
-
-				};
-				bot.answerCallbackQuery(query.id, `Готово`);
-
-
-			}).catch(function (e) {
-				console.log(e);
-			});
-
-		
-
-
-	} else if (queryCall[0] === 'nature') {
-
-		pexelsClient.search("nature", 3, 1)
-			.then(function (result) {
-				//console.log(result);
-
-				for (let index = 0; index < result.photos.length; index++) {
-					const element = result.photos[index];
-
-
-
-					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
-						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-						[Оригінальне зоображення](${element.url}).`,
-						parse_mode: 'Markdown'
-					});
-
-
-				};
-				bot.answerCallbackQuery(query.id, `Готово`);
-
-			}).catch(function (e) {
-				console.log(e);
-			});
-
-	} else if(queryCall[0] === 'morepopular'){
-
-		pexelsClient.getPopularPhotos(3, queryCall[1])
+function GetPopular(count, page, chatId, queryId) {
+	pexelsClient.getPopularPhotos(count, page)
 		.then(function (result) {
-			//console.log(result);
-			var urls = []
 			for (let index = 0; index < result.photos.length; index++) {
 				const element = result.photos[index];
-
-				bot.sendPhoto(query.message.chat.id, element.src.large2x, {
+				bot.sendPhoto(chatId, element.src.large2x, {
 					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-					[Оригінальне зоображення](${element.url}).`,
+				[Оригінальне зоображення](${element.url}).`,
 					parse_mode: 'Markdown'
 				});
 			};
+			bot.answerCallbackQuery(queryId, `Готово`);
 
-			bot.answerCallbackQuery(query.id, `Готово`);
-
-			if (counter[query.message.chat.id] === undefined) {
-				counter[query.message.chat.id] = 2
-			}else{
+			if (counter[chatId] === undefined) {
+				counter[chatId] = 2
+			} else {
 				miniCounter++
-				counter[query.message.chat.id] = miniCounter
+				counter[chatId] = miniCounter
 			}
-		
 			setTimeout(() => {
-				bot.sendMessage(query.message.chat.id,'Ще популярних картинок', {
+				bot.sendMessage(chatId, 'Ще популярних картинок?', {
 					reply_markup: {
 						inline_keyboard: [
-							[
-								{
-									text: 'Вперед',
-									callback_data: 'morepopular;' + counter[query.message.chat.id]
-			
-								}
-							]
-						]
-			
-					}
-			
-				})//bot send mesage and keyboard
-			}, 1200);
+							[{
+								text: 'Так',
+								callback_data: 'morepopular;' + counter[chatId]
 
+
+							}]
+						]
+					}
+				}) //bot send mesage and keyboard
+			}, 2500);
 		}).catch(function (e) {
 			console.log(e);
 		});
 
-	}else {
-		pexelsClient.search("wedding", 3, 1)
-			.then(function (result) {
-				//console.log(result);
+}
 
-				for (let index = 0; index < result.photos.length; index++) {
-					const element = result.photos[index];
-					
-					bot.sendPhoto(query.message.chat.id, element.src.large2x, {
-						caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-						[Оригінальне зоображення](${element.url}).`,
-						parse_mode: 'Markdown'
-					});
-				};
 
-				bot.answerCallbackQuery(query.id, `Готово`);
+function GetSearch(search, count, page, chatId, queryId) {
+	pexelsClient.search(search, count, page)
+		.then(function (result) {
 
-			}).catch(function (e) {
-				console.log(e);
-			});		
+			for (let index = 0; index < result.photos.length; index++) {
+				const element = result.photos[index];
 
-	};
+				bot.sendPhoto(chatId, element.src.large2x, {
+					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+				[Оригінальне зоображення](${element.url}).`,
+					parse_mode: 'Markdown'
+				});
+			};
+			bot.answerCallbackQuery(queryId, `Готово`);
+
+		}).catch(function (e) {
+			console.log(e);
+		});
+}
+
+bot.on('callback_query', query => {
+
+	let queryCall = query.data.split(';');
+
+	switch (queryCall[0]) {
+		case 'popular':
+			GetPopular(4, 1, query.message.chat.id, query.id)
+			break;
+		case 'morepopular':
+			GetPopular(4, queryCall[1], query.message.chat.id, query.id);
+			break;
+		case 'nature':
+			GetSearch('nature', 4, 1, query.message.chat.id, query.id);
+			break;
+		case 'cars':
+				GetSearch('cars', 4, 1, query.message.chat.id, query.id);
+				break;
+
+		default:
+				GetSearch('wedding', 4, 1, query.message.chat.id, query.id);
+			break;
+	}	
 
 	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
