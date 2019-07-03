@@ -67,7 +67,20 @@ bot.on('message', msg => {
 						text: "Міста",
 						callback_data: "city"
 					}
-				]
+				],
+				[{
+					text: 'Їжа',
+					callback_data: 'food'
+				},
+				{
+					text: "Спорт",
+					callback_data: "sport"
+				},
+				{
+					text: "Пори року",
+					callback_data: "seasons"
+				}
+			]
 			]
 		}
 	}) //bot send mesage and keyboard
@@ -82,6 +95,7 @@ function GetPopular(count, page, chatId, queryId) {
 				const element = result.photos[index];
 				bot.sendPhoto(chatId, element.src.large2x, {
 					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+				
 				[Оригінальне зоображення](${element.url}).`,
 					parse_mode: 'Markdown'
 				});
@@ -121,6 +135,7 @@ function GetSearch(search, count, page, chatId, queryId) {
 
 				bot.sendPhoto(chatId, element.src.large2x, {
 					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+				
 				[Оригінальне зоображення](${element.url}).`,
 					parse_mode: 'Markdown'
 				});
@@ -191,6 +206,25 @@ switch (queryCall[0]) {
 	case 'morecity':
 		GetSearch('city', 4, queryCall[1], query.message.chat.id, query.id);
 		break;
+	case 'food':
+		GetSearch('food', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'morefood':
+		GetSearch('food', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'sport':
+		GetSearch('sport', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'moresport':
+		GetSearch('sport', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'seasons':
+		GetSearch('seasons', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'moreseasons':
+		GetSearch('seasons', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+
 	case 'morepopular':
 		GetPopular(4, queryCall[1], query.message.chat.id, query.id);
 		break;
