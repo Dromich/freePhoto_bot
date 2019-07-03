@@ -41,12 +41,10 @@ bot.on('message', msg => {
 				[{
 					text: 'Популярні картинки',
 					callback_data: 'popular'
-
 				}],
 				[{
 						text: 'Машини',
 						callback_data: 'cars'
-
 					},
 					{
 						text: "Природа",
@@ -54,7 +52,20 @@ bot.on('message', msg => {
 					},
 					{
 						text: "Весілля",
-						callback_data: "wedd"
+						callback_data: "wedding"
+					}
+				],
+				[{
+						text: 'Тварини',
+						callback_data: 'animals'
+					},
+					{
+						text: "Подорожі",
+						callback_data: "travel"
+					},
+					{
+						text: "Міста",
+						callback_data: "city"
 					}
 				]
 			]
@@ -91,7 +102,6 @@ function GetPopular(count, page, chatId, queryId) {
 								text: 'Так',
 								callback_data: 'morepopular;' + counter[chatId]
 
-
 							}]
 						]
 					}
@@ -102,8 +112,6 @@ function GetPopular(count, page, chatId, queryId) {
 		});
 
 }
-
-
 function GetSearch(search, count, page, chatId, queryId) {
 	pexelsClient.search(search, count, page)
 		.then(function (result) {
@@ -118,6 +126,26 @@ function GetSearch(search, count, page, chatId, queryId) {
 				});
 			};
 			bot.answerCallbackQuery(queryId, `Готово`);
+			if (counter[chatId] === undefined) {
+				counter[chatId] = 2
+			} else {
+				miniCounter++
+				counter[chatId] = miniCounter
+			}
+			setTimeout(() => {
+				bot.sendMessage(chatId, 'Завантажити ще', {
+					reply_markup: {
+						inline_keyboard: [
+							[{
+								text: 'Так',
+								callback_data: 'more' + search +';' + counter[chatId]
+
+							}]
+						]
+					}
+				}) //bot send mesage and keyboard
+			}, 2500);
+
 
 		}).catch(function (e) {
 			console.log(e);
@@ -127,25 +155,49 @@ function GetSearch(search, count, page, chatId, queryId) {
 bot.on('callback_query', query => {
 
 	let queryCall = query.data.split(';');
-
-	switch (queryCall[0]) {
-		case 'popular':
-			GetPopular(4, 1, query.message.chat.id, query.id)
-			break;
-		case 'morepopular':
-			GetPopular(4, queryCall[1], query.message.chat.id, query.id);
-			break;
-		case 'nature':
-			GetSearch('nature', 4, 1, query.message.chat.id, query.id);
-			break;
-		case 'cars':
-				GetSearch('cars', 4, 1, query.message.chat.id, query.id);
-				break;
-
-		default:
-				GetSearch('wedding', 4, 1, query.message.chat.id, query.id);
-			break;
-	}	
+switch (queryCall[0]) {
+	case 'wedding':
+		GetSearch('wedding', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'morewedding':
+		GetSearch('wedding', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'nature':
+		GetSearch('nature', 4, 1, query.message.chat.id, query.id);
+	case 'morenature':
+		GetSearch('nature', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'cars':
+		GetSearch('cars', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'morecars':
+		GetSearch('cars', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'animals':
+		GetSearch('animals', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'moreanimals':
+		GetSearch('animals', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'travel':
+		GetSearch('travel', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'moretravel':
+		GetSearch('travel', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'city':
+		GetSearch('cityl', 4, 1, query.message.chat.id, query.id);
+		break;
+	case 'morecity':
+		GetSearch('city', 4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	case 'morepopular':
+		GetPopular(4, queryCall[1], query.message.chat.id, query.id);
+		break;
+	default:
+		GetPopular(4, 1, query.message.chat.id, query.id);
+		break;
+}
 
 	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
