@@ -315,7 +315,7 @@ bot.on('callback_query', query => {
 			GetSearchCustom(queryCall[0], 4, queryCall[1], query.message.chat.id, )
 			break;
 	}
-console.log(query.data)
+	//console.log(query.data)
 	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
 })
