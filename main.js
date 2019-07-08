@@ -120,7 +120,7 @@ function GetPopular(count, page, chatId, queryId) {
 						]
 					}
 				}) //bot send mesage and keyboard
-			}, 1800);
+			}, 2200);
 		}).catch(function (e) {
 			console.log(e);
 		});
@@ -159,7 +159,7 @@ function GetSearch(search, count, page, chatId, queryId) {
 						]
 					}
 				}) //bot send mesage and keyboard
-			}, 1800);
+			}, 2200);
 
 
 		}).catch(function (e) {
