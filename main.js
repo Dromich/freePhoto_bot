@@ -206,40 +206,63 @@ function GetSearchCustom(search, count, page, chatId, queryId) {
 	pexelsClient.search(search, count, page)
 		.then(function (result) {
 
-			for (let index = 0; index < result.photos.length; index++) {
-				const element = result.photos[index];
 
-				bot.sendPhoto(chatId, element.src.large2x, {
-					caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
-				
-				[Оригінальне зоображення](${element.url}).`,
-					parse_mode: 'Markdown'
-				});
-			};
+if (result.total_results > 4) {
+	
+	for (let index = 0; index < result.photos.length; index++) {
+		const element = result.photos[index];
 
-			//bot.answerCallbackQuery(queryId, `Готово`);
+		bot.sendPhoto(chatId, element.src.large2x, {
+			caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+		
+		[Оригінальне зоображення](${element.url}).`,
+			parse_mode: 'Markdown'
+		});
+	};
+
+	//bot.answerCallbackQuery(queryId, `Готово`);
 
 
-			if (counter[chatId] === undefined) {
-				counter[chatId] = 2
-			} else {
-				miniCounter++
-				counter[chatId] = miniCounter
-			}
+	if (counter[chatId] === undefined) {
+		counter[chatId] = 2
+	} else {
+		miniCounter++
+		counter[chatId] = miniCounter
+	}
 
-			setTimeout(() => {
-				bot.sendMessage(chatId, 'Завантажити ще ?', {
-					reply_markup: {
-						inline_keyboard: [
-							[{
-								text: 'Так',
-								callback_data: search + ';' + counter[chatId] 
+	setTimeout(() => {
+		bot.sendMessage(chatId, `Ще картинок за запитом - _${search}_ ?`, {
+			reply_markup: {
+				inline_keyboard: [
+					[{
+						text: 'Так',
+						callback_data: search + ';' + counter[chatId] 
 
-							}]
-						]
-					}
-				}) //bot send mesage and keyboard
-			}, 2200);
+					}]
+				]
+			},
+			parse_mode: 'Markdown'
+		}) //bot send mesage and keyboard
+	}, 2200);
+}else if(result.total_results <= 4 && result.total_results > 0 ){
+	for (let index = 0; index < result.photos.length; index++) {
+		const element = result.photos[index];
+
+		bot.sendPhoto(chatId, element.src.large2x, {
+			caption: `Фотограф  [${element.photographer}](${element.photographer_url}) на сайті [Pexels](https://www.pexels.com)
+		
+		[Оригінальне зоображення](${element.url}).`,
+			parse_mode: 'Markdown'
+		});
+	};
+}else{
+	bot.sendMessage(chatId, `Нажаль за вашим запитом - _${search}_ не знайдено ніяких картинок`,{
+		parse_mode: 'Markdown'
+	}) //bot send mesage and keyboard
+
+}
+
+
 
 
 		}).catch(function (e) {
@@ -315,7 +338,7 @@ bot.on('callback_query', query => {
 			GetSearchCustom(queryCall[0], 4, queryCall[1], query.message.chat.id, )
 			break;
 	}
-	//console.log(query.data)
+	console.log(query.data)
 	//bot.answerCallbackQuery(query.id,`${query.data}`)
 
 })
