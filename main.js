@@ -163,6 +163,9 @@ function GetPopular(count, page, chatId, queryId) {
 }
 
 function GetSearch(search, count, page, chatId, queryId) {
+	
+	counter[chatId] = 1
+
 	pexelsClient.search(search, count, page)
 		.then(function (result) {
 
