@@ -10,7 +10,7 @@ var pexelsClient = new PexelsAPI(confData.Pexels_tok);
 
 console.log('main started...')
 let counter = {};
-let miniCounter = 1;
+
 
 const bot = new TelegramBot(confData.telegam_tok, {
 	polling: {
@@ -38,7 +38,7 @@ bot.on('message', msg => {
 	const {	text } = msg;
 
 	counter[id] = 1;
-	miniCounter = 1;
+	
 
 
 	if (text === '/start') {
@@ -138,8 +138,10 @@ function GetPopular(count, page, chatId, queryId) {
 			if (counter[chatId] === undefined) {
 				counter[chatId] = 2
 			} else {
-				miniCounter++
-				counter[chatId] = miniCounter
+				
+
+				counter[chatId]++
+				console.log(counter[chatId])
 			}
 			setTimeout(() => {
 				bot.sendMessage(chatId, 'Ще популярних картинок?', {
@@ -178,8 +180,8 @@ function GetSearch(search, count, page, chatId, queryId) {
 			if (counter[chatId] === undefined) {
 				counter[chatId] = 2
 			} else {
-				miniCounter++
-				counter[chatId] = miniCounter
+				counter[chatId]++
+				console.log(counter[chatId])
 			}
 			setTimeout(() => {
 				bot.sendMessage(chatId, 'Завантажити ще ?', {
@@ -226,8 +228,8 @@ if (result.total_results > 4) {
 	if (counter[chatId] === undefined) {
 		counter[chatId] = 2
 	} else {
-		miniCounter++
-		counter[chatId] = miniCounter
+		counter[chatId]++
+				console.log(counter[chatId])
 	}
 
 	setTimeout(() => {
